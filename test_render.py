@@ -39,7 +39,10 @@ def demo_pittsburg():
     so beware.
 
     """
-    PTS_BASE = 'data_Akihiko_Torii/Pitssburg/'
+   # PTS_BASE = 'data_Akihiko_Torii/Pitssburg/'
+    PTS_BASE = '/app/datasets/NetvLad/Pittsburgh/'
+    
+    
     pr = PittsburgRenderer( PTS_BASE )
     for i in range(20):
         a,b = pr.step(nP=10, nN=10, ENABLE_IMSHOW=True)
@@ -93,12 +96,12 @@ def demo_panda():
     for i in range(20):
         a,b = app.step(16)
 
-# demo_pittsburg()
+demo_pittsburg()
 # demo_walks()
 # demo_tokyotm()
 # demo_panda()
 
 
-WALKS_PATH = '/media/mpkuse/Bulk_Data/keezi_walks/'
-tm = WalksRendererOnline( WALKS_PATH )
-tm.proc()
+#WALKS_PATH = '/media/mpkuse/Bulk_Data/keezi_walks/'
+#tm = WalksRendererOnline( WALKS_PATH )
+#tm.proc()

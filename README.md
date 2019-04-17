@@ -1,4 +1,16 @@
-# NetVLAD Training
+# Ideas
+
+* MobileNet / DCF training -> Recall
+* Reduce dimension~500 dimention
+* Motivation ~ 10,000 photoes and Tags done, 
+
+
+
+
+## NetVLAD Training
+
+
+
 A sleek, easy to read/modify implementation of NetVLAD. This needs Keras2.
 I have made this with Tensorflow1.11 as the backend but in principle should
 also work with other backends supported by keras.
@@ -14,6 +26,12 @@ cv2 - OpenCV <br/>
 numpy - Python Math <br/>
 [imgaug](https://github.com/aleju/imgaug) - Data Augmentation.
 Panda3D - Rendering (only if you use PandaRender.py/PandaRender)<br/>
+
+```
+apt install python-opencv graphviz
+git clone https://github.com/UsmanMaqbool/cartwheel_train.git 
+pip install keras tensorflow np_utils six numpy scipy Pillow matplotlib scikit-image opencv-python imageio Shapely imgaug python-editor pydot  panda3d
+```
 
 
 ## Howto train?
