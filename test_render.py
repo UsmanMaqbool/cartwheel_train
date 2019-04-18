@@ -25,10 +25,10 @@ import cv2
 import time
 import code
 
-from TimeMachineRender import TimeMachineRender
+#from TimeMachineRender import TimeMachineRender
 #from PandaRender import NetVLADRenderer
-from WalksRenderer import WalksRenderer
-from WalksRenderer import WalksRendererOnline
+#from WalksRenderer import WalksRenderer
+#from WalksRenderer import WalksRendererOnline
 from PittsburgRenderer import PittsburgRenderer
 
 def demo_pittsburg():
@@ -40,7 +40,7 @@ def demo_pittsburg():
 
     """
    # PTS_BASE = 'data_Akihiko_Torii/Pitssburg/'
-    PTS_BASE = '/app/datasets/NetvLad/Pittsburgh/'
+    PTS_BASE = '/app/datasets/NetvLad/Pittsburgh'
     
     pr = PittsburgRenderer( PTS_BASE )
     for i in range(20):
