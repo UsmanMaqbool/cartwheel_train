@@ -122,7 +122,7 @@ class PitsSequence(keras.utils.Sequence):
 
         # PTS_BASE = '/Bulk_Data/data_Akihiko_Torii/Pitssburg/'
         self.pr = PittsburgRenderer( PTS_BASE )
-        self.D = self.pr.step_n_times(n_samples=500, nP=nP, nN=nN, resize=(320,240), return_gray=True, ENABLE_IMSHOW=True )
+        self.D = self.pr.step_n_times(n_samples=n_samples, nP=nP, nN=nN, resize=(320,240), return_gray=True, ENABLE_IMSHOW=True )
         print 'len(D)=', len(self.D), '\tD[0].shape=', self.D[0].shape
         self.y = np.zeros( len(self.D) )
 
@@ -208,7 +208,7 @@ if __name__ == '__main__':
     # int_logr = InteractiveLogger( './models.keras/mobilenet_new/pw13_quash_chnls_k16_allpairloss' )
     # int_logr = InteractiveLogger( './models.keras/mobilenet_new/pw13_quash_chnls_k16_tripletloss2' )
 
-    int_logr = InteractiveLogger( './models.keras/tmp_staticnormalized_images/' )
+    int_logr = InteractiveLogger( '/app/datasets/models.keras/tmp_staticnormalized_images/' )
 
 
     #--------------------------------------------------------------------------
@@ -282,9 +282,9 @@ if __name__ == '__main__':
     reduce_lr = keras.callbacks.ReduceLROnPlateau(monitor='loss', factor=0.6, patience=75, verbose=1, min_lr=0.1)
 
 
-    history = t_model.fit_generator( generator=PitsSequence('/Bulk_Data/data_Akihiko_Torii/Pitssburg/' ,nP=nP, nN=nN, n_samples=500, initial_epoch=initial_epoch),
+    history = t_model.fit_generator( generator=PitsSequence('/app/datasets/NetvLad/Pittsburgh/' ,nP=nP, nN=nN, n_samples=50, initial_epoch=initial_epoch),
                             epochs=2200, verbose=1, initial_epoch=initial_epoch,
-                            validation_data = PitsSequence('/Bulk_Data/data_Akihiko_Torii/Pitssburg_validation/', nP=nP, nN=nN, n_samples=500 ),
+                            validation_data = PitsSequence('/app/datasets/NetvLad/Pitssburg_validation/', nP=nP, nN=nN, n_samples=50 ),
                             callbacks=[tb,saver_cb,reduce_lr]
                          )
     print 'Save Final Model : ',  int_logr.dir() + '/core_model.keras'

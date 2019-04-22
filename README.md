@@ -28,9 +28,11 @@ numpy - Python Math <br/>
 Panda3D - Rendering (only if you use PandaRender.py/PandaRender)<br/>
 
 ```
-apt-get update && apt-get install python-opencv graphviz
+apt-get update && apt-get install python-pip python-opencv graphviz
 git clone https://github.com/UsmanMaqbool/cartwheel_train.git 
-pip install keras tensorflow np_utils six numpy scipy Pillow matplotlib scikit-image imageio Shapely imgaug python-editor pydot panda3d
+# pip install keras imgaug
+pip install --upgrade pip===9.0.3
+pip install keras tensorflow-gpu np_utils six numpy scipy Pillow matplotlib scikit-image imageio Shapely imgaug python-editor pydot panda3d
 ```
 
 
