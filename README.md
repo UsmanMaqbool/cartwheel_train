@@ -5,11 +5,11 @@
 * Motivation ~ 10,000 photoes and Tags done, 
 
 
-
+[test_loadjsonmodel.py](test_loadjsonmodel.py) for using the json model to create the same trained network.
 
 ## NetVLAD Training
 
-
+`tensorboard --logdir='./models.keras/'` to start the tensorboard
 
 A sleek, easy to read/modify implementation of NetVLAD. This needs Keras2.
 I have made this with Tensorflow1.11 as the backend but in principle should
