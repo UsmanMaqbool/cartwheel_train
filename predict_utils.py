@@ -5,7 +5,7 @@ import numpy as np
 import cv2
 import code
 
-from CustomNets import NetVLADLayer
+from CustomNets import NetVLADLayer, GhostVLADLayer
 
 #--------------------------- UTILS --------------------------------------------#
 def open_json_file( fname ):
@@ -29,7 +29,7 @@ def change_model_inputshape(model, new_input_shape=(None, 40, 40, 3), verbose=Fa
     # model._layers[2].strides = (8, 8)
 
     # rebuild model architecture by exporting and importing via json
-    new_model = keras.models.model_from_json(model.to_json(), custom_objects={'NetVLADLayer': NetVLADLayer} )
+    new_model = keras.models.model_from_json(model.to_json(), custom_objects={'NetVLADLayer': NetVLADLayer, 'GhostVLADLayer': GhostVLADLayer} )
     new_model.summary()
 
     # copy weights from old model to new one
