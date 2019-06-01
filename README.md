@@ -20,25 +20,46 @@ Manohar Kuse <mpkuse@connect.ust.hk> <br/>
 
 
 ## Required Packages
-[Keras2](https://keras.io) - Deep learning. 
-TensorFlow - Deep learning toolkit (v.1.08+)<br/>
+[Keras](https://keras.io) 2.2.4 - Deep learning. <br/>
+TensorFlow - Deep learning toolkit (v.1.08+, better use v1.12)<br/>
 cv2 - OpenCV <br/>
 numpy - Python Math <br/>
-[imgaug](https://github.com/aleju/imgaug) - Data Augmentation.
+[imgaug](https://github.com/aleju/imgaug) - Data Augmentation. <br/>
 Panda3D - Rendering (only if you use PandaRender.py/PandaRender)<br/>
 
 ```
 apt-get update && apt-get install python-pip python-opencv graphviz
 git clone https://github.com/UsmanMaqbool/cartwheel_train.git 
+```
 # pip install keras imgaug
 pip install --upgrade pip===9.0.3
 pip install keras tensorflow-gpu np_utils six numpy scipy Pillow matplotlib scikit-image imageio Shapely imgaug python-editor pydot panda3d
+## Run on Docker
+I have created a docker image with the dependencies needed for this code. It needs a
+functioning cuda9 on host pc and nvidia docker installed. Realistically you will want
+to share a folder containing your data and code from host to docker container. This can be
+done with the `-v` option in docker. Also you might want to have GUIs enabled for docker.
+Have a look at [my blog for docker usage](https://kusemanohar.wordpress.com/2018/10/03/docker-for-computer-vision-researchers/)
+ from a computer-vision researcher/developer perspective.
+
+### Core Docker Usage
+```
+$(host) docker run --runtime=nvidia -it mpkuse/kusevisionkit:nvidia-cuda9-tf1.11-torch0.4 bash
+```
+
+### A more realistic Usage
+```
+$(host) cd $HOME/docker_ws
+$(host) git clone <this repo>
+$(host) cd <you data dir>; put your data learning here.
+$(host) docker run --runtime=nvidia -it -e DISPLAY=$DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix -v $HOME/docker_ws:/app -v /media/mpkuse/Bulk_Data/:/Bulk_Data  mpkuse/kusevisionkit:nvidia-cuda9-tf1.11-torch0.4 bash
+$(docker) python noveou_train_netvlad_v3.py
 ```
 
 
 ## Howto train?
-The main code lies in `noveou_train_netvlad_v3.py`. It mainly depends on `CustomNets.py` (contains network definations, NetVLADLayer, data loading, data augmenters) and on `CustomLosses.py` (contains loss functions
-    and validation metrics).
+The main code lies in `noveou_train_netvlad_v3.py`. It mainly depends on `CustomNets.py` (contains network definations, NetVLADLayer, data loading, data augmenters) ; on `CustomLosses.py` (contains loss functions
+    and validation metrics) ; on `CustomDataProc.py` (contains data augmentation, performed with imgaug)
 
 You may want to tune all other parameters such as
 the K for NetVLAD, logging directory, SGD optimizer etc. directly from the script `noveou_train_netvlad_v3.py`
@@ -84,23 +105,46 @@ info under issues on this github repo, I will try and help you out.
 ## Howto obtain image descriptor?
 Usage:
 ```
-python demo_compute_im_descriptor.py
+python demo_keras_hdf5_model.py
 ```
 
 
 ## Pretrained Model
-All my models to be released TODO
+All my models to be released TODO. Until then, please put up an issue to on this
+report to ask-for-it.
 - model-1
 - model-2
 
+## How to Run keras models with TensorRT (TX2)
+I store the keras models as HDF5 files (most prefered). These files need to be converted to
+tensorflow's .pb (protobuf) files. These can then be converted to uff files. UFFParse
+through the TensorRT provides mechanism to execute these kernels. Please refer to
+my [blog pose](https://kusemanohar.wordpress.com/2019/05/25/hands-on-tensorrt-on-nvidiatx2/)
+for more details in this regard.
+
+The following script in this repo, will help you convert hdf5 keras models
+to .uff. Beware, that this is a rapidly changing/evolving thing. Look at Nvidia's devtalk under TX2 for the latest update on this.
+This info is accurate for May 2019.
+```
+python util_keras-h5-model_to-tensorflow-pb_to-nvinfer-uff.py --kerasmodel_h5file <path to hdf5 file>
+```
+
+I have also created a script (test_tensorrt_uffparser.py) to quickly test the UFFParser on your desktop (x86). For this you need TensorRT python binding. You may use my docker image for a quick test
+
+```
+docker run --runtime=nvidia -it -e DISPLAY=$DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix -v $HOME/docker_ws:/app -v /media/mpkuse/Bulk_Data/:/Bulk_Data  mpkuse/kusevisionkit:tfgpu-1.12-tensorrt-5.1 bash
+```
 
 ## References
 If you use my data/code or if you compare with my results, please do cite. Also cite
 the NetVLAD paper whenever appropriate.
 
-- My Paper (Will be added after acceptance)
+- Manohar Kuse and Shaojie Shen, “Learning Whole-Image Descriptors for Real-time Loop Detection and Kidnap Recovery under Large Viewpoint Difference“, submitted to Robotics and Autonomous Systems https://arxiv.org/abs/1904.06962
 - Arandjelovic, Relja, et al. "NetVLAD: CNN architecture for weakly supervised place recognition." Proceedings of the IEEE Conference on Computer Vision and Pattern Recognition. 2016.
 
 ## Copyright Notice
 Released under [MIT license](https://opensource.org/licenses/MIT) unless stated otherwise. The MIT license lets you do anything with the code as long as you provide acknowledgement to me on code use and do not hold me liable for damages if any. Not for commercial use. Contact me
 if you wish to use it commercially.
+
+## Author
+Manohar Kuse <mpkuse@connect.ust.hk>
