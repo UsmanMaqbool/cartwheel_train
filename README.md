@@ -1,4 +1,4 @@
-# Ideas
+# Place Recognition Approach
 
 * MobileNet / DCF training -> Recall
 * Reduce dimension~500 dimention
