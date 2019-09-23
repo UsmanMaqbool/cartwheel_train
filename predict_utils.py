@@ -38,7 +38,7 @@ def change_model_inputshape(model, new_input_shape=(None, 40, 40, 3), verbose=Fa
     new_model.summary()
 
     # copy weights from old model to new one
-    print '[change_model_inputshape] copy weights from old model to new one....this usually takes upto 10 sec'
+    print '[change_model_inputshape] copy weights from old model to new one (new_input_shape=%s)....this usually takes upto 10 sec' %( str(new_input_shape))
     for layer in new_model.layers:
         try:
             if verbose:
