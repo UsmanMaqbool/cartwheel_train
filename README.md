@@ -15,10 +15,6 @@ A sleek, easy to read/modify implementation of NetVLAD. This needs Keras2.
 I have made this with Tensorflow1.11 as the backend but in principle should
 also work with other backends supported by keras.
 
-## Author
-Manohar Kuse <mpkuse@connect.ust.hk> <br/>
-
-
 ## Required Packages
 [Keras](https://keras.io) 2.2.4 - Deep learning. <br/>
 TensorFlow - Deep learning toolkit (v.1.08+, better use v1.12)<br/>
@@ -146,5 +142,7 @@ the NetVLAD paper whenever appropriate.
 Released under [MIT license](https://opensource.org/licenses/MIT) unless stated otherwise. The MIT license lets you do anything with the code as long as you provide acknowledgement to me on code use and do not hold me liable for damages if any. Not for commercial use. Contact me
 if you wish to use it commercially.
 
-## Author
-Manohar Kuse <mpkuse@connect.ust.hk>
+## Forked from 
+```
+https://github.com/mpkuse/cartwheel_train 
+```
