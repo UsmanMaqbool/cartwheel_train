@@ -29,7 +29,12 @@ def change_model_inputshape(model, new_input_shape=(None, 40, 40, 3), verbose=Fa
     # model._layers[2].strides = (8, 8)
 
     # rebuild model architecture by exporting and importing via json
-    new_model = keras.models.model_from_json(model.to_json(), custom_objects={'NetVLADLayer': NetVLADLayer, 'GhostVLADLayer': GhostVLADLayer} )
+    # new_model = keras.models.model_from_json(model.to_json(), custom_objects={'NetVLADLayer': NetVLADLayer, 'GhostVLADLayer': GhostVLADLayer} )
+    print 'saving a tmp file /tmp/shgdfsd.h5'
+    model.save( '/tmp/shgdfsd.h5' );
+    print 'loading a tmp file /tmp/shgdfsd.h5'
+    new_model = keras.models.load_model( '/tmp/shgdfsd.h5', custom_objects={'NetVLADLayer': NetVLADLayer, 'GhostVLADLayer': GhostVLADLayer} )
+
     new_model.summary()
 
     # copy weights from old model to new one

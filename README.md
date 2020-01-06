@@ -1,5 +1,19 @@
 # Ideas
 
+## Docker
+
+```py
+docker start nvd && docker exec -it nvd /bin/bash 
+
+cd /app/ && jupyter notebook --allow-root --ip=0.0.0.0
+# Open using the link to run using SCP link to run the main file of jupyter
+#python3, #pytorch, tensorflow gpu 1.14, opencv3.3 jupyter, cuda 10.1 <br> **How it started**
+xhost +local:root
+and
+sudo docker run --gpus all -it --name nvd -v ~/docker_ws:/app -p 8001:8888 -p 6001:6006 -e DISPLAY=$DISPLAY -e QT_X11_NO_MITSHM=1 -v /tmp/.X11-unix/:/tmp/.X11-unix/ mpkuse/kusevisionkit:nvidia-cuda9-tf1.11-torch0.4 /bin/bash
+```
+
+
 * MobileNet / DCF training -> Recall
 * Reduce dimension~500 dimention
 * Motivation ~ 10,000 photoes and Tags done, 

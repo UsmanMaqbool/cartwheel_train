@@ -187,7 +187,7 @@ if __name__ == '__main__':
 
     nP = 6
     nN = 6
-    netvlad_num_clusters = 16
+    netvlad_num_clusters = 16 
 
     initial_epoch = 0 # for resuming training. If this is a non-zero value will load the corresponding model from log_dir
     n_samples = 500 #< training sames to load for the epoch
@@ -215,7 +215,7 @@ if __name__ == '__main__':
     # LOG_DIR = './models.keras/Apr2019/color_conv6_K16Ghost1__centeredinput'
     # LOG_DIR = './models.keras/May2019/centeredinput-gray__mobilenet-conv7__K16__allpairloss'
 
-    LOG_DIR = './models.keras/June2019/centeredinput-m1to1-%dx%dx%d__%s-%s__K%d__allpairloss' %(image_nrows, image_ncols, image_nchnl, CNN_type, layer_name, netvlad_num_clusters)
+    LOG_DIR = './models.keras/Dec2019/centeredinput-m1to1-%dx%dx%d__%s-%s__K%d__allpairloss' %(image_nrows, image_ncols, image_nchnl, CNN_type, layer_name, netvlad_num_clusters)
     global int_logr
     int_logr = InteractiveLogger( LOG_DIR )
 
@@ -264,7 +264,7 @@ if __name__ == '__main__':
 
     # Plot
     model.summary()
-    keras.utils.plot_model( model, to_file=int_logr.dir()+'/core.png', show_shapes=True )
+   # keras.utils.plot_model( model, to_file=int_logr.dir()+'/core.png', show_shapes=False )
     int_logr.save_model_as_json( 'model.json', model )
         # look at test_loadjsonmodel.py for demo on how to load model with json file.
 
@@ -287,7 +287,7 @@ if __name__ == '__main__':
     t_model = keras.models.Model( inputs=t_input, outputs=t_out )
 
     t_model.summary()
-    keras.utils.plot_model( t_model, to_file=int_logr.dir()+'/core_t.png', show_shapes=True )
+#    keras.utils.plot_model( t_model, to_file=int_logr.dir()+'/core_t.png', show_shapes=True )
     print 'Write Directory : ', int_logr.dir()
     # int_logr.fire_editor()
 
