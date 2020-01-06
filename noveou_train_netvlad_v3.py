@@ -25,7 +25,7 @@ import json
 
 # CustomNets
 from CustomNets import NetVLADLayer, GhostVLADLayer
-from CustomNets import make_from_mobilenet, make_from_vgg16
+from CustomNets import make_from_mobilenet, make_from_vgg16, make_from_mobilenetv2
 from CustomDataProc import dataload_, do_typical_data_aug
 
 # CustomLoses
@@ -109,13 +109,17 @@ class PitsSequence(keras.utils.Sequence):
 
             self.D = self.pr.step_n_times(n_samples=self.n_samples_pitts, nP=self.nP, nN=self.nN, resize=self.resize, return_gray=self.return_gray, ENABLE_IMSHOW=self.ENABLE_IMSHOW )
             self.y = np.zeros( len(self.D) )
-            print 'len(D)=', len(self.D), '\tD[0].shape=', self.D[0].shape
+            print 'epoch=', self.epoch, '\tlen(D)=', len(self.D), '\tD[0].shape=', self.D[0].shape
 
 
-            # if self.epoch > 400:
-            if self.epoch > 400 and self.n_samples_pitts<0:
+            if self.epoch > 10:
+            # if self.epoch > 400 and self.n_samples_pitts<0:
                 # Data Augmentation after 400 epochs.
+                print tcolor.WARNING, 'do_typical_data_aug', tcolor.ENDC
                 self.D = do_typical_data_aug( self.D )
+            else:
+                print tcolor.WARNING, 'NO Data Augmentation', tcolor.ENDC
+
 
             print 'returned len(self.D)=', len(self.D), 'self.D[0].shape=', self.D[0].shape
             self.y = np.zeros( len(self.D) )
@@ -153,7 +157,7 @@ def signal_handler(sig, frame):
     #TODO: somehow get access to current epoch number and write the mdoel file accordingly
     print('You pressed Ctrl+C!')
     print 'Save Current Model : ',  int_logr.dir() + '/core_modelX.keras'
-    model.save( int_logr.dir() + '/core_modelX.keras' )
+    # model.save( int_logr.dir() + '/core_modelX.keras' )
     model.save( int_logr.dir() + '/modelarch_and_weights.X.h5' )
     sys.exit(0)
 
@@ -181,8 +185,8 @@ if __name__ == '__main__':
     #      a. CNN Type: VGG16, mobilenet
     #      b. base CNN layer
 
-    CNN_type =  'mobilenet'       #'mobilenet', 'vgg16'
-    layer_name= 'conv_pw_5_relu' #'conv_pw_7_relu', 'block5_pool'
+    CNN_type =  'mobilenetv2'       #'mobilenet', 'vgg16', 'mobilenetv2'
+    layer_name= 'block_9_add' #'conv_pw_7_relu', 'block5_pool', 'block_9_add'
     init_model_weights = None #'imagenet', None. imagenet only nchanls=3
 
     nP = 6
@@ -233,19 +237,23 @@ if __name__ == '__main__':
     global model
     input_img = keras.layers.Input( shape=(image_nrows, image_ncols, image_nchnl ) )
 
-    if CNN_type=='mobilenet' or CNN_type=='vgg16':
+    if CNN_type=='mobilenet' or CNN_type=='vgg16' or CNN_type =='mobilenetv2':
         pass
     else:
         assert( False )
 
     # weights=imagenet will only work with nchanls=3
+    cnn = None
     if CNN_type=='mobilenet':
         cnn = make_from_mobilenet( input_img, layer_name=layer_name,\
                     weights=init_model_weights, kernel_regularizer=keras.regularizers.l2(0.01) )
 
     if CNN_type == 'vgg16':
-        cnn = make_from_vgg16( input_img, weights=init_model_weights, layer_name=layer_name, kernel_regularizer=keras.regularizers.l2(0.01) )
+        cnn = make_from_vgg16( input_img, weights=init_model_weights, layer_name=layer_name, kernel_regularizer=keras.regularizers.l2(0.001) )
 
+    if CNN_type == 'mobilenetv2':
+        cnn = make_from_mobilenetv2( input_img,  layer_name=layer_name,\
+        weights=init_model_weights, kernel_regularizer=keras.regularizers.l2(0.01) )
 
 
     # Reduce nChannels of the output.

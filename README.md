@@ -1,4 +1,4 @@
-# Ideas
+# Place Recognition Approach
 
 ## Docker
 
@@ -29,14 +29,12 @@ A sleek, easy to read/modify implementation of NetVLAD. This needs Keras2.
 I have made this with Tensorflow1.11 as the backend but in principle should
 also work with other backends supported by keras.
 
-## Author
-Manohar Kuse <mpkuse@connect.ust.hk> <br/>
-
+![Netvlad Block Diagram](resources/netvlad_block.png)
 
 ## Required Packages
 [Keras](https://keras.io) 2.2.4 - Deep learning. <br/>
 TensorFlow - Deep learning toolkit (v.1.08+, better use v1.12)<br/>
-cv2 - OpenCV <br/>
+cv2 - OpenCV3.3 (Using opencv only for imread, resize, so wont matter the version so much) <br/>
 numpy - Python Math <br/>
 [imgaug](https://github.com/aleju/imgaug) - Data Augmentation. <br/>
 Panda3D - Rendering (only if you use PandaRender.py/PandaRender)<br/>
@@ -129,6 +127,35 @@ report to ask-for-it.
 - model-1
 - model-2
 
+## Useful Utilities
+
+#### - Print Memory and FLOPS related info on the Keras hdf5 models.
+```
+$ python util_kerasmodel_info.py --kerasmodel_h5file <.h5 file path>
+```
+
+
+#### - Edit input dimensions for a fully convolutional Keras hdf5 model.
+```
+$ python util_kerasmodel_edit.py --kerasmodel_h5file <.h5 file path> --rows <say 100> --cols <say 150>
+```
+
+### - Convert Keras model to Tensorflow protobuf (aka. frozen_graph)
+```
+$ python util_kerasmodel_to_tensorflow-pb.py --kerasmodel_h5file <.h5 file>
+```
+
+this will produce a .pb file and a .pbtxt look at the log. After that see the script, [test_frozengraph_predictions.py](test_frozengraph_predictions.py) for a sample
+of how to do inference with this .pb.
+
+### - Convert Tensorflow protobuf (aka frozen_graph .pb) to Nvidia's UFF
+```
+$ python util_pb_to_uff.py -pb <full path of a .pb file>
+```
+
+This is practically same as using the nvidia's commandline utility `convert-to-uff`. Python code adopted from [nvidia's convert_plan.py](https://github.com/NVIDIA-AI-IOT/tf_to_trt_image_classification/blob/master/scripts/convert_plan.py). See also the following section on TensorRT inference if using on TX2.
+
+
 ## How to Run keras models with TensorRT (TX2)
 I store the keras models as HDF5 files (most prefered). These files need to be converted to
 tensorflow's .pb (protobuf) files. These can then be converted to uff files. UFFParse
@@ -160,5 +187,7 @@ the NetVLAD paper whenever appropriate.
 Released under [MIT license](https://opensource.org/licenses/MIT) unless stated otherwise. The MIT license lets you do anything with the code as long as you provide acknowledgement to me on code use and do not hold me liable for damages if any. Not for commercial use. Contact me
 if you wish to use it commercially.
 
-## Author
-Manohar Kuse <mpkuse@connect.ust.hk>
+## Forked from Manohar work
+```
+https://github.com/mpkuse/cartwheel_train 
+```
